@@ -16,7 +16,6 @@ public class SimpleClassLoader extends ClassLoader {
     @Override
     protected Class<?> findClass(final String name) throws ClassNotFoundException {
         String pathString = name.replace('.', '/') + ".class";
-//        pathString = "C:/Users/Дмитрий/Music/ClassLoader2/out/production/ClassLoader2/"+ pathString;
         pathString = this.classDirectoryPath + "/" + pathString;
 
         Path path = Paths.get(pathString);
