@@ -7,24 +7,24 @@ import java.nio.file.Paths;
  * Created by user on 10.11.2017.
  */
 public class SimpleClassLoader extends ClassLoader {
-    private String nameClass;
+    private String classDirectoryPath;
 
-    public SimpleClassLoader(String name) {
-        this.nameClass = name;
+    public SimpleClassLoader(String classDirectoryPath) {
+        this.classDirectoryPath = classDirectoryPath;
     }
 
     @Override
-    protected Class<?> findClass(String name) throws ClassNotFoundException {
-        name = name.replace('.', '/') + ".class";
+    protected Class<?> findClass(final String name) throws ClassNotFoundException {
+        String pathString = name.replace('.', '/') + ".class";
+//        pathString = "C:/Users/Дмитрий/Music/ClassLoader2/out/production/ClassLoader2/"+ pathString;
+        pathString = this.classDirectoryPath + "/" + pathString;
 
-        StringBuilder result = new StringBuilder();
-        result.append(this.nameClass + name);
-        Path path = Paths.get(result.toString());
+        Path path = Paths.get(pathString);
         Class<?> clazz = null;
         try {
             byte[] bytes = Files.readAllBytes(path);
             if (bytes.length != 0) {
-                clazz = defineClass(result.toString(), bytes, 0, bytes.length);
+                clazz = defineClass(name, bytes, 0, bytes.length);
             }
         } catch (IOException e) {
             System.out.println(e);
